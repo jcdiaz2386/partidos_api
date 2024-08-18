@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partidos Políticos</title>
+</head>
+<body>
+    <h1>Partidos Políticos</h1>
+    <div id="partidos"></div>
+
+    <script>
+        // URL de la API local
+        const apiUrl = 'http://localhost:8000/api/partidos/'; // Ajusta la URL según sea necesario
+
+        // Usar fetch para obtener los datos de la API
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);  // Imprime los datos en la consola del navegador
+                const partidosDiv = document.getElementById('partidos');
+                partidosDiv.innerHTML = '';  // Limpia el contenido antes de agregar nuevos elementos
+                data.forEach(partido => {
+                    const partidoElement = document.createElement('div');
+                    // Actualiza con los campos correctos
+                    partidoElement.innerHTML = `<strong>${partido.nombre}</strong> - Fundado: ${new Date(partido.fundado).toLocaleDateString()} - Líder: ${partido.lider}`;
+                    partidosDiv.appendChild(partidoElement);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>
